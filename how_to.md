@@ -1,24 +1,24 @@
 # setup
-ダウンロード(Appleシリコン用)
-brew tap ArmMbed/homebrew-formulae
-arm-gnu-toolchain-15.2.rel1-darwin-arm64-arm-none-eabi.pkg
+ダウンロード(Appleシリコン用)<br>
+brew tap ArmMbed/homebrew-formulae<br>
+arm-gnu-toolchain-15.2.rel1-darwin-arm64-arm-none-eabi.pkg<br>
 
-VScode
-File->Add folder to Workspace
-[(pico W用設定)(一回め)
-cmd+shift+p Open Wordspace Settings (JSON)
-"cmake.configureSettings": {
-  "PICO_BOARD": "pico_w"
-}を追加
-CMake: Delete Cache and Reconfigure
-CMake: Build
-]
-cmd+shift+p CMake: Select Active Folder
-cmd+shift+p CMake: Configure
-cmd+shift+p CMake: Build
+## VScode
+File->Add folder to Workspace <br>
+[(pico W用設定)(一回め) <br>
+cmd+shift+p Open Wordspace Settings (JSON)<br>
+"cmake.configureSettings": {<br>
+  "PICO_BOARD": "pico_w"<br>
+}を追加<br>
+CMake: Delete Cache and Reconfigure<br>
+CMake: Build<br>
+]<br>
+cmd+shift+p CMake: Select Active Folder<br>
+cmd+shift+p CMake: Configure<br>
+cmd+shift+p CMake: Build<br>
 
-BOOTSELを押しながらUSBを差し込む
-build/*.uf2をラズピコフォルダに入れる
+BOOTSELを押しながらUSBを差し込む<br>
+build/*.uf2をラズピコフォルダに入れる<br>
 
 
 

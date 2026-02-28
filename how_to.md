@@ -24,14 +24,14 @@ build/*.uf2をラズピコフォルダに入れる<br>
 
 
 # 開発方法
-template(
-    CMakeLists.txt
-    main.c
-    pico_sdk_import.cmake
-)をコピーする
-CMakeLists.txt(
-    projectnameの変更
-    ライブラリの追加
-    printfの出力先
-)
-main.c
+template(<br>
+    CMakeLists.txt<br>
+    main.c<br>
+    pico_sdk_import.cmake<br>
+)をコピーする<br>
+CMakeLists.txt(<br>
+    projectnameの変更<br>
+    ライブラリの追加<br>
+    printfの出力先<br>
+)<br>
+main.c<br>

@@ -19,7 +19,7 @@
 #endif
 
 /* 関数プロトタイプ宣言
- * @param pio (pio1 or pio2)
+ * @param pio (pio0 or pio1)
  * @param state machine番号 (0~3)
  * @param offset PIO命令をロードした開始位置 
  * @param pin GPIOの番号
@@ -33,10 +33,10 @@ int main() {
     sleep_ms(2000);
 
     // (デバッグ falseで停止)GPIOの番号チェック
-    assert(LED1_GPIO < 31);
-    assert(LED2_GPIO < 31);
-    assert(LED3_GPIO < 31);
-    assert(LED4_GPIO < 31);
+    assert(LED1_GPIO < 30);
+    assert(LED2_GPIO < 30);
+    assert(LED3_GPIO < 30);
+    assert(LED4_GPIO < 30);
 
     // 使うPIO(pio0 or pio1)
     PIO pio = pio0;

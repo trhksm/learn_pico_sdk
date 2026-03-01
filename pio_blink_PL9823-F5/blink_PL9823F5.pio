@@ -1,0 +1,41 @@
+.program blink_PL9823F5 //プログラム名
+.side_set 1 opt //サイドセットを任意で書き、1bit分使う
+
+.wrap_target //ループ開始
+    pull block          side 0  //TX FIFOから32bitをOSRに取り出す(ブロッキング)
+    set y, 23           side 0  //yを24にセット(送信bitのカウント)
+
+bitloop:
+    out x, 1    side 0 [3 - 1]  //OSRから1bitxへ入れる
+    jmp !x do_zero side 1 [2 - 1]
+do_one:
+    nop         side 1 [5 - 1]
+    jmp cont    side 0
+do_zero:
+    nop         side 0 [5 - 1]
+cont:
+    jmp y-- bitloop side 0 [2 - 1] //yが0でなければbitloop:へ
+.wrap
+
+
+% c-sdk {
+
+void blink_PL9823F5_program_init(PIO pio, uint sm, uint offset, uint pin) {
+   //GPIOをPIOように初期化
+   pio_gpio_init(pio, pin);
+   //pinから1本分を出力へ(true = output)
+   pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+   //.pioからconfigを取得
+   pio_sm_config c = blink_PL9823F5_program_get_default_config(offset);
+   //side-setの出力ピンを設定
+   sm_config_set_sideset_pins(&c, pin);
+   //outがOSRから取り出す時のシフト方向(MSB-first 自動pullしない 閾値)
+   sm_config_set_out_shift(&c, false, false, 0);
+   //PIO動作クロックを作るための分周比計算
+   float div = (float)clock_get_hz(clk_sys) / 8000000.0f;
+   //分周比設定
+   sm_config_set_clkdiv(&c, div);
+   //smにconfigを適用+初期化
+   pio_sm_init(pio, sm, offset, &c);
+}
+%}

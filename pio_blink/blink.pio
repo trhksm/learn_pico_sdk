@@ -1,0 +1,30 @@
+.program blink // プログラム名設定
+  pull block   // TX FIFOから32bitをOSRに取り出す(ブロッキング)
+  out y, 32    // OSRから32bitをYレジスタにコピー
+
+.wrap_target   //ループの先端 
+  mov x, y     //yの値をxにコピー
+  set pins, 1  //sm_config_set_set_pins(&c ,pin ,1);のピンをHigh
+lp1:
+  jmp x-- lp1  //xをデクリメント+0でなければlp1に戻る
+  mov x, y
+  set pins, 0
+lp2:
+  jmp x-- lp2
+.wrap          //.wrap_targetに戻る
+
+% c-sdk {
+
+void blink_program_init(PIO pio, uint sm, uint offset, uint pin) {
+   //GPIOをPIOように初期化
+   pio_gpio_init(pio, pin);
+   //pinから1本分を出力へ(true = output)
+   pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+   //.pioからconfigを取得
+   pio_sm_config c = blink_program_get_default_config(offset);
+   //set pinsのピン範囲(pinから1本)を指定
+   sm_config_set_set_pins(&c, pin, 1);
+   //smにconfigを適用+初期化
+   pio_sm_init(pio, sm, offset, &c);
+}
+%}
